@@ -142,3 +142,44 @@ class MacAddress:
             raise ValueError('Invalid MAC address passed {}'.format(mac_address))
 
         return mac_flat, mac, mac_dots, mac_dashes
+
+
+class NetworkMetric:
+    """Class representing a network metric like Mbps or kBps"""
+
+    def __init__(self, B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps):
+        self.B_s = B_s      # Bytes per second
+        self.kB_s = kB_s    # kiloBytes per second
+        self.MB_s = MB_s    # MegaBytes per second
+        self.GB_s = GB_s    # GigaBytes per second
+
+        self.bps = bps      # bits per second
+        self.kbps = kbps    # Kilobits per second
+        self.Mbps = Mbps    # Megabits per second
+        self.Gbps = Gbps    # Gigabits per second
+
+    @classmethod
+    def from_bytes(cls, B_s):
+        """Initialise :class:`NetworkMetric` from Bytes per second"""
+        kB_s = B_s / 1024   # kiloBytes per second
+        MB_s = kB_s / 1024  # MegaBytes per second
+        GB_s = MB_s / 1024  # GigaBytes per second
+        bps = B_s / 8       # bits per second
+        kbps = kB_s / 8     # Kilobits per second
+        Mbps = MB_s / 8     # Megabits per second
+        Gbps = GB_s / 8     # Gigabits per second
+
+        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps)
+
+    @classmethod
+    def from_bits(cls, bps):
+        """Initialse :class:`NetworkMetric` from bits per second"""
+        B_s = bps * 8       # Bytes per second
+        kB_s = B_s / 1024   # kiloBytes per second
+        MB_s = kB_s / 1024  # MegaBytes per second
+        GB_s = MB_s / 1024  # GigaBytes per second
+        kbps = kB_s / 8     # Kilobits per second
+        Mbps = MB_s / 8     # Megabits per second
+        Gbps = GB_s / 8     # Gigabits per second
+
+        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps)

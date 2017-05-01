@@ -1,5 +1,6 @@
 # My own added stuff
 *.json
+.*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
