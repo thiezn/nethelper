@@ -7,7 +7,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"kbps": 1024}' http://10.2
 echo -e '\n\n1024 kbps non-rounded'
 curl -H "Content-Type: application/json" -X POST -d '{"kbps": 1024, "round_to": null}' http://10.243.48.5:8081/api/v1/metrics/calculate
 echo -e '\n\nIncorrect payload'
-curl -H "Content-Type: application/json" -X POST -d '{"bla": null}' http://10.243.48.5:8081/metrics/calculate
+curl -H "Content-Type: application/json" -X POST -d '{"bla": null}' http://10.243.48.5:8081/api/v1/metrics/calculate
 
 
 echo -e '\n\nNetwork calculations'

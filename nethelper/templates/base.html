@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #navigation ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+            #navigation li {
+                float: left;
+            }
+            #navigation li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            #navigation li a:hover {
+                background-color: #111;
+            }
+            .active {
+                background-color: #4CAF50;
+            }
+
+            .box {
+                float: left;
+                margin: 5px;
+                padding: 15px;
+                width: 40%;
+                min-width: 200px;
+                min-height: 150px;
+                border: 1px solid black;
+            }
+
+            #footer {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                padding: 15px;
+                background-color: #333;
+                color: white;
+                text-align: center;
+            }
+
+        </style>
+    </head>
+<body>
+
+<div id="navigation">
+    {% block navigation %}
+        <nav>
+            <ul id="navigation">
+                <li><a href="/">Query</a></li>
+                <li><a href="/api">API</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li style="float:right"><a class="active" href="/about">About</a></li>
+            </ul>
+        </nav>
+    {% endblock navigation %}
+</div>
+
+<div id="content">
+    {% block content %}{% endblock content %}
+</div>
+
+<div id="footer">
+    {% block footer %}
+        <hr>
+        &copy; Copyright 2017 by <a href="https://www.mortimer.nl/">Mathijs Mortimer</a>
+    {% endblock %}
+</div>
+
+</body>
+</html>

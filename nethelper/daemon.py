@@ -21,6 +21,8 @@ except ImportError:
 
 import json
 from aiohttp import web
+import aiohttp_jinja2
+import jinja2
 from .routes import setup_api_routes, setup_web_routes
 
 
@@ -53,6 +55,15 @@ class NetHelperApi:
     def start(self):
         """Starts the REST API"""
         self.app = web.Application()
+
+        # Enable jinja2 templates
+        aiohttp_jinja2.setup(
+            self.app, loader=jinja2.PackageLoader('nethelper', 'templates')
+        )
+
+        # Register routes
         setup_api_routes(self.app)
         setup_web_routes(self.app)
+
+        # Start web daemon
         web.run_app(self.app, host=self.host, port=self.port)
