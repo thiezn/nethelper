@@ -6,7 +6,7 @@ Holds all the REST API views
 """
 
 from aiohttp import web
-from .models import IPv4Network, MacAddress, NetworkMetric
+from .models import IPv4Network, MacAddress, NetworkMetric, Port
 import json
 
 
@@ -80,4 +80,9 @@ async def get_all_ports(request):
 
 async def get_ports(request):
     data = await request.json()
-    return web.json_response(data)
+
+    if 'protocol' not in data and 'port' not in data:
+        raise_generic_json_error()
+
+    port = Port(data['port'], data['protocol'])
+    return web.json_response(port.to_json())

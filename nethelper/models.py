@@ -6,6 +6,7 @@ Contains the various object models
 """
 
 import ipaddress
+import csv
 
 
 class IPv4Network:
@@ -66,6 +67,71 @@ class IPv4Network:
         }
 
 
+class Port:
+    """Class representing a network port"""
+
+    def __init__(self, port, protocol, port_filename='config/ports.csv'):
+        """Initialize :class:`Port`
+
+        :param port (int): Port number
+        :param protocol (str): Protocol 'tcp', 'udp', 'sctp', 'any'
+        :param port_filename (str): location of port list csv file
+        """
+        self.port = port
+        self.protocol = protocol.lower()
+
+        self.name = None
+        self.description = None
+        self.assignee = None
+        self.contact = None
+        self.registation_date = None
+        self.modification_date = None
+        self.reference = None
+        self.service_code = None
+        self.known_unauthorized_uses = None
+        self.assignment_notes = None
+
+        # TODO: Perhaps rework file to get the port number into a dict for quick access?
+        # Maybe read the file when starting the http daemon so its always available?
+        try:
+            with open(port_filename, 'r') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    # TODO: implement protocol=any
+                    if int(row['Port Number']) == self.port:
+                        if row['Transport Protocol'] == self.protocol:
+                            self.name = row['Service Name']
+                            self.description = row['Description']
+                            self.assignee = row['Assignee']
+                            self.contact = row['Contact']
+                            self.registation_date = row['Registration Date']
+                            self.modification_date = row['Modification Date']
+                            self.reference = row['Reference']
+                            self.service_code = row['Service Code']
+                            self.known_unauthorized_uses = row['Known Unauthorized Uses']
+                            self.assignment_notes = row['Assignment Notes']
+                            break
+        except FileNotFoundError:
+            pass
+
+    def __repr__(self):
+        return '<Port {}/{}'.format(self.protocol, self.port)
+
+    def to_json(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "assignee": self.assignee,
+            "contact": self.contact,
+            "registration_date": self.registation_date,
+            "modification_date": self.modification_date,
+            "reference": self.reference,
+            "service_code": self.service_code,
+            "known_unauthorized_uses": self.known_unauthorized_uses,
+            "assignment_notes": self.assignment_notes
+        }
+
+
 class MacAddress:
     """Class representing a network MAC Address"""
 
@@ -100,7 +166,6 @@ class MacAddress:
                     if split_line[0].startswith(self.vendor_id):
                         self.vendors.append(split_line[1].strip())
         except FileNotFoundError:
-            print('Couldnt find file')
             pass
 
     def __repr__(self):

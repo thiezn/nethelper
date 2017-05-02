@@ -13,3 +13,12 @@ def fetch_mac_address_vendor_file(
     # TODO: Remove any empty lines from file
     # TODO: Remove any line starting with a #
     pass
+
+
+def fetch_iana_port_list(
+        url='https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.csv'):
+    """Retrieves and cleans up the official IANA port list
+    
+    :param url: URL to the IANA port list in csv format
+    """
+    pass

@@ -24,7 +24,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"bla": null}' http://10.24
 
 echo -e '\n\nMAC Address parsing'
 echo '==================='
-echo -e '\n\n00.11.22.33.44.55'
+echo '00.11.22.33.44.55'
 curl -H "Content-Type: application/json" -X POST -d '{"mac_address": "00.11.22.33.44.55"}' http://10.243.48.5:8081/mac
 echo -e '\n\n0011.2233.4455'
 curl -H "Content-Type: application/json" -X POST -d '{"mac_address": "0011.2233.4455"}' http://10.243.48.5:8081/mac
@@ -36,5 +36,14 @@ echo -e '\n\n001122334455'
 curl -H "Content-Type: application/json" -X POST -d '{"mac_address": "001122334455"}' http://10.243.48.5:8081/mac
 echo -e '\n\nIncorrect payload'
 curl -H "Content-Type: application/json" -X POST -d '{"bla": null}' http://10.243.48.5:8081/mac
+
+echo -e '\n\nPorts'
+echo '====='
+echo 'tcp/22'
+curl -H "Content-Type: application/json" -X POST -d '{"port": 22, "protocol": "tcp"}' http://10.243.48.5:8081/ports
+echo -e '\n\nudp\21'
+curl -H "Content-Type: application/json" -X POST -d '{"port": 21, "protocol": "udp"}' http://10.243.48.5:8081/ports
+echo -e '\n\nIncorrect payload'
+curl -H "Content-Type: application/json" -X POST -d '{"bla": null}' http://10.243.48.5:8081/ports
 
 echo ''
