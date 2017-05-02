@@ -1,1 +1,1 @@
-from .webdaemon import NetHelperApi
+from .daemon import NetHelperApi

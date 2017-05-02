@@ -4,8 +4,8 @@ from nethelper import NetHelperApi
 
 
 def main():
-    api = NetHelperApi.load_from_config('config/server.json')
-    api.start()
+    web_daemon = NetHelperApi.load_from_config('config/server.json')
+    web_daemon.start()
 
 
 if __name__ == '__main__':
