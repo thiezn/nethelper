@@ -75,14 +75,15 @@ class MacAddress:
             self.mac_address_flat,
             self.mac_address,
             self.mac_address_dots,
-            self.mac_address_dashes
-        ) = self._parse_mac_notation(mac_address)
+            self.mac_address_dashes,
+            self.mac_address_binary
+        ) = self.parse_mac_notation(mac_address)
 
         # TODO: universal vs local mac:  https://en.wikipedia.org/wiki/MAC_address
-        # self.is_unicast =
-        # self.is_multicast =
-        # self.is_universal =
-        # self is_local =
+        self.is_unicast = None
+        self.is_multicast = None
+        self.is_universal = None
+        self.is_local = None
 
         # TODO: set vendor_id to None and skip vendorfile check if self.is_local = True
         self.vendor_id = self.mac_address[:6]
@@ -91,11 +92,14 @@ class MacAddress:
         # TODO: verify if this is correct and see if we can optimise
         # by doing less splitting
         self.vendors = []
-        with open(vendor_filename, 'r') as f:
-            for line in f:
-                split_line = line.split()
-                if self.vendor_id.startswith(split_line[0]):
-                    self.vendors.append(line.split('# ')[1])
+        try:
+            with open(vendor_filename, 'r') as f:
+                for line in f:
+                    split_line = line.split()
+                    if self.vendor_id.startswith(split_line[0]):
+                        self.vendors.append(line.split('# ')[1])
+        except FileNotFoundError:
+            pass
 
     def __repr__(self):
         return '<MacAddress {}>'.format(self.mac_address)
@@ -117,7 +121,7 @@ class MacAddress:
         }
 
     @staticmethod
-    def parse_mac_notation(self, mac_address):
+    def parse_mac_notation(mac_address):
         """Parses a given mac address
 
         This function will try to find out the MAC address notation
@@ -151,11 +155,12 @@ class MacAddress:
                 mac_flat[8:10],
                 mac_flat[10:12]
             )
+            mac_binary = '0'
 
         except IndexError:
             raise ValueError('Invalid MAC address passed {}'.format(mac_address))
 
-        return mac_flat, mac, mac_dots, mac_dashes
+        return mac_flat, mac, mac_dots, mac_dashes, mac_binary
 
 
 class NetworkMetric:
