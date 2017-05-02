@@ -24,7 +24,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"bla": null}' http://10.24
 
 echo -e '\n\nMAC Address parsing'
 echo '==================='
-echo -e '00.11.22.33.44.55'
+echo -e '\n\n00.11.22.33.44.55'
 curl -H "Content-Type: application/json" -X POST -d '{"mac_address": "00.11.22.33.44.55"}' http://10.243.48.5:8081/mac
 echo -e '\n\n0011.2233.4455'
 curl -H "Content-Type: application/json" -X POST -d '{"mac_address": "0011.2233.4455"}' http://10.243.48.5:8081/mac

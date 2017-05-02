@@ -69,7 +69,7 @@ class IPv4Network:
 class MacAddress:
     """Class representing a network MAC Address"""
 
-    def __init__(self, mac_address, vendor_filename='mac_vendors.txt'):
+    def __init__(self, mac_address, vendor_filename='config/oui.txt'):
         """ Tries to find the mac address vendor address """
         (
             self.mac_address_flat,
@@ -86,19 +86,21 @@ class MacAddress:
         self.is_local = None
 
         # TODO: set vendor_id to None and skip vendorfile check if self.is_local = True
-        self.vendor_id = self.mac_address[:6]
+        self.vendor_id = self.mac_address[:8]
 
         # Search for mac in mac vendor file
-        # TODO: verify if this is correct and see if we can optimise
+        # TODO: The file also has Well-known addresses. move this to seperate file
+        # and parse it
         # by doing less splitting
         self.vendors = []
         try:
             with open(vendor_filename, 'r') as f:
                 for line in f:
-                    split_line = line.split()
-                    if self.vendor_id.startswith(split_line[0]):
-                        self.vendors.append(line.split('# ')[1])
+                    split_line = line.split('# ')
+                    if split_line[0].startswith(self.vendor_id):
+                        self.vendors.append(split_line[1].strip())
         except FileNotFoundError:
+            print('Couldnt find file')
             pass
 
     def __repr__(self):
