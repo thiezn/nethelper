@@ -15,12 +15,16 @@ Golden networks
 Well known blacklists
 Well known whitelists
 TOR exit node IP lists?
+information on TCP/UDP/ICMP headers perhaps? not sure what I would want but would be cool if we can use scapy! :D
+Known vpn adress lists(or perhaps using a portscan, fingerprinting something to detect)
+Common port lists through API
 
 
 Function calls
 ==============
 - Summarization of given list of networks
 - Convert Mbps/kbps/bps/kBps/etc
+- simple postscan (Dangerous waters here...?)
 
 
 Brain dump of all kinds of stuff I want to do but probably will never get around to

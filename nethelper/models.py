@@ -25,9 +25,7 @@ class IPv4Network:
         elif netmask:
             network_query = '{}/{}'.format(ip_address, netmask)
         elif bitmask:
-            if bitmask.startswith('/'):
-                bitmask = bitmask.lstrip('/')
-            network_query = '{}/{}'.format(ip_address, netmask)
+            network_query = '{}/{}'.format(ip_address, bitmask)
         else:
             raise ValueError('Invalid parameters: {} {} {}'.format(ip_address, netmask, bitmask))
 
@@ -46,8 +44,8 @@ class IPv4Network:
         self.bitmask = result.with_prefixlen.split('/')[1]
         self.hostmask = result.with_hostmask.split('/')[1]
         self.num_addresses = result.num_addresses
-        self.first_host = ipaddress.ip_address(int(result.network_address + 1))
-        self.last_host = ipaddress.ip_address(int(result.broadcast_address - 1))
+        self.first_host = str(ipaddress.ip_address(int(result.network_address + 1)))
+        self.last_host = str(ipaddress.ip_address(int(result.broadcast_address - 1)))
 
     def __repr__(self):
         return '<Network {}/{}>'.format(self.network, self.bitmask)
@@ -102,6 +100,22 @@ class MacAddress:
     def __repr__(self):
         return '<MacAddress {}>'.format(self.mac_address)
 
+    def to_json(self):
+        """Returns a json representation of the :class:`MacAddress` object"""
+        return {
+            'mac_address': self.mac_address,
+            'mac_address_flat': self.mac_address_flat,
+            'mac_address_dots': self.mac_address_dots,
+            'mac_address_dashes': self.mac_address_dashes,
+            'mac_address_binary': self.mac_address_binary,
+            'vendor_id': self.vendor_id,
+            'vendors': self.vendors,
+            'is_unicast': self.is_unicast,
+            'is_multicast': self.is_multicast,
+            'is_universal': self.is_universal,
+            'is_local': self.is_local
+        }
+
     @staticmethod
     def parse_mac_notation(self, mac_address):
         """Parses a given mac address
@@ -147,7 +161,9 @@ class MacAddress:
 class NetworkMetric:
     """Class representing a network metric like Mbps or kBps"""
 
-    def __init__(self, B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps):
+    def __init__(self, B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps, round_to=None):
+        self.round_to = round_to
+
         self.B_s = B_s      # Bytes per second
         self.kB_s = kB_s    # kiloBytes per second
         self.MB_s = MB_s    # MegaBytes per second
@@ -158,28 +174,84 @@ class NetworkMetric:
         self.Mbps = Mbps    # Megabits per second
         self.Gbps = Gbps    # Gigabits per second
 
+    def __repr__(self):
+        # TODO: figure out a way to get the best representation
+        if self.round_to is None:
+            Mbps = self.Mbps
+        else:
+            Mbps = round(self.Mbps, self.round_to)
+
+        return '<NetworkMetric {} Mbps>'.format(Mbps)
+
+    def to_json(self):
+        """Returns a json representation of the :class:`NetworkMetric` object"""
+        if self.round_to is None:
+            B_s = self.B_s
+            kB_s = self.kB_s
+            MB_s = self.MB_s
+            GB_s = self.GB_s
+            bps = self.bps
+            kbps = self.kbps
+            Mbps = self.Mbps
+            Gbps = self.Gbps
+        else:
+            B_s = round(self.B_s, self.round_to)
+            kB_s = round(self.kB_s, self.round_to)
+            MB_s = round(self.MB_s, self.round_to)
+            GB_s = round(self.GB_s, self.round_to)
+            bps = round(self.bps, self.round_to)
+            kbps = round(self.kbps, self.round_to)
+            Mbps = round(self.Mbps, self.round_to)
+            Gbps = round(self.Gbps, self.round_to)
+        return {
+            'bps': bps,
+            'kbps': kbps,
+            'Mbps': Mbps,
+            'Gbps': Gbps,
+            'B/s': B_s,
+            'kB/s': kB_s,
+            'MB/s': MB_s,
+            'GB/s': GB_s,
+        }
+
     @classmethod
-    def from_bytes(cls, B_s):
+    def from_bytes(cls, B_s, round_to=None):
         """Initialise :class:`NetworkMetric` from Bytes per second"""
         kB_s = B_s / 1024   # kiloBytes per second
         MB_s = kB_s / 1024  # MegaBytes per second
         GB_s = MB_s / 1024  # GigaBytes per second
+
         bps = B_s / 8       # bits per second
         kbps = kB_s / 8     # Kilobits per second
         Mbps = MB_s / 8     # Megabits per second
         Gbps = GB_s / 8     # Gigabits per second
 
-        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps)
+        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps, round_to)
 
     @classmethod
-    def from_bits(cls, bps):
-        """Initialse :class:`NetworkMetric` from bits per second"""
+    def from_bits(cls, bps, round_to=None):
+        """Initialise :class:`NetworkMetric` from bits per second"""
         B_s = bps * 8       # Bytes per second
         kB_s = B_s / 1024   # kiloBytes per second
         MB_s = kB_s / 1024  # MegaBytes per second
         GB_s = MB_s / 1024  # GigaBytes per second
+
         kbps = kB_s / 8     # Kilobits per second
         Mbps = MB_s / 8     # Megabits per second
         Gbps = GB_s / 8     # Gigabits per second
 
-        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps)
+        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps, round_to)
+
+    @classmethod
+    def from_kilobits(cls, kbps, round_to=None):
+        """Initialise :class:`NetworkMetric` from kilobits per second"""
+        B_s = kbps * 8 / 1024      # Bytes per second
+        kB_s = B_s / 1024          # kiloBytes per second
+        MB_s = kB_s / 1024         # MegaBytes per second
+        GB_s = MB_s / 1024         # GigaBytes per second
+
+        bps = kbps / 1024          # bits per second
+        Mbps = MB_s / 8            # Megabits per second
+        Gbps = GB_s / 8            # Gigabits per second
+
+        return cls(B_s, kB_s, MB_s, GB_s, bps, kbps, Mbps, Gbps, round_to)
