@@ -29,55 +29,106 @@ Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/inpu
 {% if network or port or mac %}
 <div class="box">
     {% if network %}
-        <ul>
-            <li>network {{ network.network }}</li>
-            <li>netmask {{ network.netmask }}</li>
-            <li>bitmask {{ network.bitmask }}</li>
-            <li>hostmask {{ network.hostmask }}</li>
-            <li>first_host {{ network.first_host }}</li>
-            <li>last_host {{ network.last_host }}</li>
-            <li>num_addresses {{ network.num_addresses }}</li>
-            <li>broadcast {{ network.broadcast }}</li>
-            <li>is_private {{ network.is_private }}</li>
-            <li>is_multicast {{ network.is_multicast }}</li>
-        </ul>
+        <table>
+            <caption>Network Details</caption>
+            <thead>
+                <tr>
+                    <th scope='col'>network</th>
+                    <th scope='col'>netmask</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="network">{{ network.network }}</td>
+                    <td data-label="netmask">{{ network.netmask }}</td>
+                    <td data-label="bitmask">{{ network.bitmask }}</td>
+                    <td data-label="hostmask">{{ network.hostmask }}</td>
+                    <td data-label="first_host">{{ network.first_host }}</td>
+                    <td data-label="last_host">{{ network.last_host }}</td>
+                    <td data-label="num_addresses">{{ network.num_addresses }}</td>
+                    <td data-label="broadcast">{{ network.broadcast }}</td>
+                    <td data-label="is_private">{{ network.is_private }}</td>
+                    <td data-label="is_multicast">{{ network.is_multicast }}</td>
+                </tr>
+            </tbody>
+        </table>
     {% endif %}
 
     {% if port %}
-        <ul>
-            <li>port number {{ port.port }}</li>
-            <li>name {{ port.name }}</li>
-            <li>description {{ port.description }}</li>
-            <li>assignee {{ port.assignee }}</li>
-            <li>contact {{ port.contact }}</li>
-            <li>registration_date {{ port.registation_date }}</li>
-            <li>modification_date {{ port.modification_date }}</li>
-            <li>reference {{ port.reference }}</li>
-            <li>service_code {{ port.service_code }}</li>
-            <li>known_unauthorized_uses {{ port.known_unauthorized_uses }}</li>
-            <li>assignment_notes {{ port.assignment_notes }}</li>
-        </ul>
+       <table>
+            <caption>Port Details</caption>
+            <thead>
+                <tr>
+                    <th scope='col'>number</th>
+                    <th scope='col'>name</th>
+                    <th scope='col'>description</th>
+                    <th scope='col'>assignee</th>
+                    <th scope='col'>contact</th>
+                    <th scope='col'>registration date</th>
+                    <th scope='col'>modification date</th>
+                    <th scope='col'>reference</th>
+                    <th scope='col'>service code</th>
+                    <th scope='col'>known unauthorized uses</th>
+                    <th scope='col'>assignment notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="port number">{{ port.port }}</td>
+                    <td data-label="name">{{ port.name }}</td>
+                    <td data-label="description">{{ port.description }}</td>
+                    <td data-label="assignee">{{ port.assignee }}</td>
+                    <td data-label="contact">{{ port.contact }}</td>
+                    <td data-label="registration_date">{{ port.registation_date }}</td>
+                    <td data-label="modification_date">{{ port.modification_date }}</td>
+                    <td data-label="reference">{{ port.reference }}</td>
+                    <td data-label="service_code">{{ port.service_code }}</td>
+                    <td data-label="known_unauthorized_uses">{{ port.known_unauthorized_uses }}</td>
+                    <td data-label="assignment_notes">{{ port.assignment_notes }}</td>
+                </tr>
+            </tbody>
+        </table>
     {% endif %}
 
     {% if mac %}
-        <ul>
-            <li>mac_address {{ mac.mac_address }}</li>
-            <li>mac_address_dots {{ mac.mac_address_dots }}</li>
-            <li>mac_address_dashes {{ mac.mac_address_dashes }}</li>
-            <li>mac_address_flat {{ mac.mac_address_flat }}</li>
-            <li>mac_address_binary {{ mac.mac_address_binary }}</li>
-            <li>vendor_id {{ mac.vendor_id }}</li>
-            <li>vendor(s)
-            {% for vendor in mac.vendors %}
-                {{ vendor }}
-                {{ "," if not loop.last }}
-            {% endfor %}   
-            </li>
-            <li>is_unicast {{ mac.is_unicast }}</li>
-            <li>is_multicast {{ mac.is_multicast }}</li>
-            <li>is_universal {{ mac.is_universal }}</li>
-            <li>is_local {{ mac.is_local }}</li>
-        </ul>
+       <table>
+            <caption>Port Details</caption>
+            <thead>
+                <tr>
+                    <th scope='col'>mac address</th>
+                    <th scope='col'>mac address dots</th>
+                    <th scope='col'>mac address dashes</th>
+                    <th scope='col'>mac address flat</th>
+                    <th scope='col'>mac address binary</th>
+                    <th scope='col'>vendor ID</th>
+                    <th scope='col'>vendor(s)</th>
+                    <th scope='col'>is unicast</th>
+                    <th scope='col'>is multicast</th>
+                    <th scope='col'>is universal</th>
+                    <th scope='col'>is local</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="mac_address">{{ mac.mac_address }}</td>
+                    <td data-label="mac_address_dots">{{ mac.mac_address_dots }}</td>
+                    <td data-label="mac_address_dashes">{{ mac.mac_address_dashes }}</td>
+                    <td data-label="mac_address_flat">{{ mac.mac_address_flat }}</td>
+                    <td data-label="mac_address_binary">{{ mac.mac_address_binary }}</td>
+                    <td data-label="vendor_id">{{ mac.vendor_id }}</td>
+                    <td data-label="vendor(s)
+                    {% for vendor in mac.vendors %}
+                       ">{{ vendor }}
+                       ">{{ "," if not loop.last }}
+                    {% endfor %}   
+                    </td>
+                    <td data-label="is_unicast">{{ mac.is_unicast }}</td>
+                    <td data-label="is_multicast">{{ mac.is_multicast }}</td>
+                    <td data-label="is_universal">{{ mac.is_universal }}</td>
+                    <td data-label="is_local">{{ mac.is_local }}</td>
+                </tr>
+            </tbody>
+        </table>
     {% endif %}
 </div>
 {% endif %}
@@ -85,10 +136,10 @@ Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/inpu
 <div class="box">
   <h2>Client details <small>thats you...</small></h2>
   <ul>
-    <li><b>IP</b>: {{ client_ip }}</li>
-    <li><b>Src port</b>: {{ client_port }}</li>
+    <li><b>IP</b>>{{ client_ip }}</li>
+    <li><b>Src port</b>>{{ client_port }}</lo>
     {% for key, value in client_headers.items() %}
-      <li><b>{{ key }}:</b>     {{ value }}</li>
+      <li><b>{{ key }}:</b>    {{ value }}</li>
     {% endfor %}
   </ul>
 </div>
