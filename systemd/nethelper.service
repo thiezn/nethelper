@@ -4,10 +4,9 @@ Documentation=https://localhost/nethelper
 After=network.target
 
 [Service]
-Environment=SERVER_PORT=8081
 Type=simple
-User=ubuntu
-ExecStart=/usr/bin/env python3 run.py
+User=nethelper
+ExecStart=/usr/bin/env python3 /usr/local/nethelper/run.py
 Restart=on-failure
 
 [Install]
