@@ -117,13 +117,14 @@ Next create a load balancing configuration file in as root user:
 Add the followong to the configuration file:
 
     upstream nethelper {
-        server 127.0.0.1:4001
-        server 127.0.0.1:4002
-        server 127.0.0.1:4003
+        least_conn;
+        server 127.0.0.1:4001;
+        server 127.0.0.1:4002;
+        server 127.0.0.1:4003;
     }
 
     server {
-        listen 80 default_server;
+        listen 80;
         server_name _;
 
         location / {
