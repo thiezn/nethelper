@@ -16,9 +16,13 @@ def fetch_mac_address_vendor_file(
 
 
 def fetch_iana_port_list(
-        url='https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.csv'):
+        url=(
+            'https://www.iana.org/assignments/'
+            'service-names-port-numbers/service-names-port-numbers.csv'
+        )):
     """Retrieves and cleans up the official IANA port list
-    
+
     :param url: URL to the IANA port list in csv format
     """
+    # TODO: Create new lines for port ranges notated like for instance 225-241
     pass

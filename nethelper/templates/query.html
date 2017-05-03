@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>NetHelper</h1>
+
+<p>
+Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/responsive/">this</a> site for some UI improvements<br>
+Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/input/forms/">this</a> Common regular expression patterns section for parsing ip addresses using regexes
+</p>
+
+<div class="box">
+    <p>Please provide a network, mac address or port number</p>
+    <form action="/" method="get" accept-charset="utf-8">
+        <input id="query" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
+        <input type="submit" value="network" /> <!--[if lt IE 10]><small>examples: '10.0.0.0/24', '10.0.0.0 255.255.255.0'</small><![endif]-->
+    </form>
+
+    <form action="/" method="get" accept-charset="utf-8">
+        <input id="query" name="mac" placeholder="eg. '0011.2233.4455'" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
+        <input type="submit" value="mac" /> <!--[if lt IE 10]><small>examples: '0011.2233.4455', '00:11:22:33:44:55' or '00-11-22-33-44-55'</small><![endif]-->
+    </form>
+
+    <form action="/" method="get" accept-charset="utf-8">
+        <input id="query" name="port" placeholder="eg. tcp/22, 8080" {% if port %}value="{{ port.protocol }}/{{ port.port }}"{% endif %}></input>
+        <input type="submit" value="port" /> <!--[if lt IE 10]><small>examples: tcp/22, udp/21 or 8080</small><![endif]-->
+    </form>
+</div>
+
+{% if network or port or mac %}
+<div class="box">
+    {% if network %}
+        <ul>
+            <li>network {{ network.network }}</li>
+            <li>netmask {{ network.netmask }}</li>
+            <li>bitmask {{ network.bitmask }}</li>
+            <li>hostmask {{ network.hostmask }}</li>
+            <li>first_host {{ network.first_host }}</li>
+            <li>last_host {{ network.last_host }}</li>
+            <li>num_addresses {{ network.num_addresses }}</li>
+            <li>broadcast {{ network.broadcast }}</li>
+            <li>is_private {{ network.is_private }}</li>
+            <li>is_multicast {{ network.is_multicast }}</li>
+        </ul>
+    {% endif %}
+
+    {% if port %}
+        <ul>
+            <li>port number {{ port.port }}</li>
+            <li>name {{ port.name }}</li>
+            <li>description {{ port.description }}</li>
+            <li>assignee {{ port.assignee }}</li>
+            <li>contact {{ port.contact }}</li>
+            <li>registration_date {{ port.registation_date }}</li>
+            <li>modification_date {{ port.modification_date }}</li>
+            <li>reference {{ port.reference }}</li>
+            <li>service_code {{ port.service_code }}</li>
+            <li>known_unauthorized_uses {{ port.known_unauthorized_uses }}</li>
+            <li>assignment_notes {{ port.assignment_notes }}</li>
+        </ul>
+    {% endif %}
+
+    {% if mac %}
+        <ul>
+            <li>mac_address {{ mac.mac_address }}</li>
+            <li>mac_address_dots {{ mac.mac_address_dots }}</li>
+            <li>mac_address_dashes {{ mac.mac_address_dashes }}</li>
+            <li>mac_address_flat {{ mac.mac_address_flat }}</li>
+            <li>mac_address_binary {{ mac.mac_address_binary }}</li>
+            <li>vendor_id {{ mac.vendor_id }}</li>
+            <li>vendor(s)
+            {% for vendor in mac.vendors %}
+                {{ vendor }}
+                {{ "," if not loop.last }}
+            {% endfor %}   
+            </li>
+            <li>is_unicast {{ mac.is_unicast }}</li>
+            <li>is_multicast {{ mac.is_multicast }}</li>
+            <li>is_universal {{ mac.is_universal }}</li>
+            <li>is_local {{ mac.is_local }}</li>
+        </ul>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="box">
+  <h2>Client details <small>thats you...</small></h2>
+  <ul>
+    <li><b>IP</b>: {{ client_ip }}</li>
+    <li><b>Src port</b>: {{ client_port }}</li>
+    {% for key, value in client_headers.items() %}
+      <li><b>{{ key }}:</b>     {{ value }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock content %}

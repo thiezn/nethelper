@@ -10,7 +10,7 @@ from .apiviews import parse_mac_address
 from .apiviews import calculate_metrics
 from .apiviews import get_all_ports, get_ports
 
-from .webviews import index_page, contact_page, api_page, about_page, query
+from .webviews import query_page, contact_page, api_page, about_page
 
 
 def setup_api_routes(app):
@@ -32,9 +32,7 @@ def setup_api_routes(app):
 
 def setup_web_routes(app):
     """Initialises the Web routes"""
-    app.router.add_get('/', index_page)
+    app.router.add_get('/', query_page)
     app.router.add_get('/contact', contact_page)
     app.router.add_get('/api', api_page)
     app.router.add_get('/about', about_page)
-
-    app.router.add_post('/query', query)

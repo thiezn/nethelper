@@ -44,7 +44,7 @@ class IPv4Network:
         self.netmask = result.with_netmask.split('/')[1]
         self.bitmask = result.with_prefixlen.split('/')[1]
         self.hostmask = result.with_hostmask.split('/')[1]
-        self.num_addresses = result.num_addresses
+        self.num_addresses = result.num_addresses - 2
         self.first_host = str(ipaddress.ip_address(int(result.network_address + 1)))
         self.last_host = str(ipaddress.ip_address(int(result.broadcast_address - 1)))
 
@@ -98,6 +98,8 @@ class Port:
                 reader = csv.DictReader(f)
                 for row in reader:
                     # TODO: implement protocol=any
+                    print(row['Port Number'])
+                    print(self.port)
                     if int(row['Port Number']) == self.port:
                         if row['Transport Protocol'] == self.protocol:
                             self.name = row['Service Name']

@@ -1,0 +1,14 @@
+[unit]
+Description=NetHelper - Help network administrators rule the world...
+Documentation=https://localhost/nethelper
+After=network.target
+
+[Service]
+Environment=SERVER_PORT=%i
+Type=simple
+User=ubuntu
+ExecStart=/usr/bin/env python3 run.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
