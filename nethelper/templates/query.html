@@ -1,33 +1,67 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1>NetHelper</h1>
-
-<p>
-Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/responsive/">this</a> site for some UI improvements<br>
-Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/input/forms/">this</a> Common regular expression patterns section for parsing ip addresses using regexes
-</p>
-
-<div class="box">
-    <p>Please provide a network, mac address or port number</p>
-    <form action="/" method="get" accept-charset="utf-8">
-        <input id="query" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
-        <input type="submit" value="network" /> <!--[if lt IE 10]><small>examples: '10.0.0.0/24', '10.0.0.0 255.255.255.0'</small><![endif]-->
-    </form>
-
-    <form action="/" method="get" accept-charset="utf-8">
-        <input id="query" name="mac" placeholder="eg. '0011.2233.4455'" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
-        <input type="submit" value="mac" /> <!--[if lt IE 10]><small>examples: '0011.2233.4455', '00:11:22:33:44:55' or '00-11-22-33-44-55'</small><![endif]-->
-    </form>
-
-    <form action="/" method="get" accept-charset="utf-8">
-        <input id="query" name="port" placeholder="eg. tcp/22, 8080" {% if port %}value="{{ port.protocol }}/{{ port.port }}"{% endif %}></input>
-        <input type="submit" value="port" /> <!--[if lt IE 10]><small>examples: tcp/22, udp/21 or 8080</small><![endif]-->
-    </form>
+<div class="jumbotron">
+    <h1>IP Stuff</h1>
+    <p>Bla me please</p>
 </div>
 
+{% block content %}
+
+<div class="jumbotron">
+    <p>Your IP address is {{ client_ip }}</p>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        Client port <span class="badge">{{ client_ip }}</span>
+      </li>
+      {% for key, value in client_headers.items() %}
+        <li class="list-group-item">
+            {{ key }} <span class="badge">{{ value }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+
+</div> <!-- /jumbostron -->
+
+<p>
+Check <a href="http://ourcodeworld.com/articles/read/143/how-to-copy-text-to-clipboard-with-javascript-easily">this</a> for having a button to copy a string. We want to make it as easy as possible to get the results
+</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Network</h2>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="network" class="sr-only">network</label>
+                <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
+                <input class="btn btn-primary" type="submit" value="network" />
+            </div>
+        </form>
+    </div> <!-- network query -->
+    <div class="col-md-4">
+        <h2>MAC Address</h2>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="mac" class="sr-only">mac</label>
+                <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
+                <input class="btn btn-primary" type="submit" value="mac" />
+            </div>
+        </form>
+    </div> <!-- mac address query -->
+    <div class="col-md-4">
+        <h2>Port</h2>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="port" class="sr-only">port</label>
+                <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
+                <input class="btn btn-primary" type="submit" value="port" />
+            </div>
+        </form>
+    </div> <!-- port query -->
+</div> <!-- /row -->
+
+
 {% if network or port or mac %}
-<div class="box">
     {% if network %}
         <table>
             <caption>Network Details</caption>
@@ -35,6 +69,14 @@ Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/inpu
                 <tr>
                     <th scope='col'>network</th>
                     <th scope='col'>netmask</th>
+                    <th scope='col'>bitmask</th>
+                    <th scope='col'>hostmask</th>
+                    <th scope='col'>first host</th>
+                    <th scope='col'>last host</th>
+                    <th scope='col'>num host addresses</th>
+                    <th scope='col'>broadcast</th>
+                    <th scope='col'>is private</th>
+                    <th scope='col'>is multicast</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,16 +174,5 @@ Check <a href="https://developers.google.com/web/fundamentals/design-and-ui/inpu
     {% endif %}
 </div>
 {% endif %}
-
-<div class="box">
-  <h2>Client details <small>thats you...</small></h2>
-  <ul>
-    <li><b>IP</b>>{{ client_ip }}</li>
-    <li><b>Src port</b>>{{ client_port }}</lo>
-    {% for key, value in client_headers.items() %}
-      <li><b>{{ key }}:</b>    {{ value }}</li>
-    {% endfor %}
-  </ul>
-</div>
 
 {% endblock content %}

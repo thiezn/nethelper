@@ -22,6 +22,7 @@ async def query_page(request):
         client_ip, client_port = None, None
 
     data = {
+        'query_page_active': True,
         'client_ip': client_ip,
         'client_port': client_port,
         'client_headers': request.headers
@@ -54,14 +55,9 @@ async def query_page(request):
 
 @aiohttp_jinja2.template('api.html')
 async def api_page(request):
-    pass
+    return {'api_page_active': True}
 
 
-@aiohttp_jinja2.template('contact.html')
-async def contact_page(request):
-    pass
-
-
-@aiohttp_jinja2.template('about.html')
-async def about_page(request):
-    pass
+@aiohttp_jinja2.template('whoarewe.html')
+async def whoarewe_page(request):
+    return {'whoarewe_page_active': True}

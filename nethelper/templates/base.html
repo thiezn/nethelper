@@ -1,130 +1,57 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <title>{% block title %}{% endblock title %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            #navigation ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-            #navigation li {
-                float: left;
-            }
-            #navigation li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            #navigation li a:hover {
-                background-color: #111;
-            }
-            .active {
-                background-color: #4CAF50;
-            }
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Website and REST API for parsing ip, networks, mac addresses and ports">
+    <meta name="author" content="Mathijs Mortimer">
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="static/favicon.ico" type="image/x-icon">
 
-            .box {
-                float: left;
-                margin: 5px;
-                padding: 15px;
-                width: 40%;
-                min-width: 200px;
-                min-height: 150px;
-                border: 1px solid black;
-            }
+    <title>{% block title %}{% endblock title %}</title>
 
-            #footer {
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                padding: 15px;
-                background-color: #333;
-                color: white;
-                text-align: center;
-            }
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-            table {
-                border: 1px solid #ccc;
-                border-collapse: collapse;
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                table-layout: fixed;
-            }
-            table caption {
-                font-size: 1.3em;
-            }
-            table thead {
-                border: none;
-                clip: rect(0 0 0 0);
-                height: 1px;
-                margin: -1px;
-                overflow: hidden;
-                padding: 0;
-                position: absolute;
-                width: 1px;
-            }
-            table tr {
-                background: #f8f8f8;
-                border: 1px solid #ddd;
-                padding: .35em;
-                border-bottom: 3px solid #ddd;
-                display: block;
-            }
-            table td {
-                border-bottom: 1px solid #ddd;
-                display: block;
-                font-size: .8em;
-                text-align: right;
-            }
-            table td:before {
-                /*
-                * aria-label has no advantage, it won't be read inside a table
-                content: attr(aria-label);
-                */
-                content: attr(data-label);
-                float: left;
-                font-weight: bold;
-                text-transform: uppercase;
-            }
-            table td:last-child {
-                /* removes line from last child */
-                border-bottom: 0;
-            }
+    <!-- Custom styles for this website -->
+    <link href="{{ app.router.static.url(filename='css/nethelper.css') }}" rel="stylesheet">
 
-        </style>
-    </head>
-<body>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
 
-<div id="navigation">
-    {% block navigation %}
+    <div class="container">
+      <div class="header clearfix">
         <nav>
-            <ul id="navigation">
-                <li><a href="/">Query</a></li>
-                <li><a href="/api">API</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li style="float:right"><a class="active" href="/about">About</a></li>
-            </ul>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" {% if query_page_active %}class="active"{% endif %}><a href="/">Query</a></li>
+            <li role="presentation" {% if api_page_active %}class="active"{% endif %}><a href="/api">API</a></li>
+            <li role="presentation" {% if whoarewe_page_active %}class="active"{% endif %}><a href="/whoarewe">Who are we</a></li>
+          </ul>
         </nav>
-    {% endblock navigation %}
-</div>
+        <h3 class="text-muted">NetHelper</h3>
+      </div>
 
-<div id="content">
-    {% block content %}{% endblock content %}
-</div>
+      {% block content %}{% endblock content %}
 
-<div id="footer">
-    {% block footer %}
-        <hr>
-        &copy; Copyright 2017 by <a href="https://www.mortimer.nl/">Mathijs Mortimer</a>
-    {% endblock %}
-</div>
+      <div class="footer">
+          {% block footer %}{% endblock footer %}
+          {% include "footer.html" %}
+      </div>
 
-</body>
+    </div> <!-- /container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+{% block scripts %}{% endblock scripts %}
+  </body>
 </html>

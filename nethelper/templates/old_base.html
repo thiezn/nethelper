@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: 'Helvetica', 'Arial', sans-serif;
+                color: #444444;
+                font-size: 9pt;
+                background-color: #FAFAFA;
+            }
+            #navigation h1 {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px 0px;
+                text-decoration: none;
+                font-size: 1em;
+            }
+            #navigation ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+            #navigation li {
+                float: left;
+            }
+            #navigation li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            #navigation li a:hover {
+                background-color: #111;
+            }
+            .active {
+                background-color: #4CAF50;
+            }
+
+            .box {
+                float: left;
+                margin: 5px;
+                padding: 15px;
+                width: 40%;
+                min-width: 200px;
+                min-height: 150px;
+                border: 1px solid black;
+            }
+
+            #footer {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                padding: 15px;
+                background-color: #333;
+                color: white;
+                text-align: center;
+            }
+
+            table {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+                margin: 0;
+                padding: 0;
+                width: 50%;
+                min-width: 200px;
+                table-layout: fixed;
+            }
+            table caption {
+                font-size: 1.3em;
+            }
+            table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+            table tr {
+                background: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: .35em;
+                border-bottom: 3px solid #ddd;
+                display: block;
+            }
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: .8em;
+                text-align: right;
+            }
+            table td:before {
+                /*
+                * aria-label has no advantage, it won't be read inside a table
+                content: attr(aria-label);
+                */
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            table td:last-child {
+                /* removes line from last child */
+                border-bottom: 0;
+            }
+
+        </style>
+    </head>
+<body>
+
+<div id="navigation">
+    {% block navigation %}
+        <nav>
+            <ul id="navigation">
+                <li><h1>NetHelper</h1></li>
+                <li><a href="/">Query</a></li>
+                <li><a href="/api">API</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li style="float:right"><a class="active" href="/about">About</a></li>
+            </ul>
+        </nav>
+    {% endblock navigation %}
+</div>
+
+<div id="content">
+    {% block content %}{% endblock content %}
+</div>
+
+<div id="footer">
+    {% block footer %}
+        <hr>
+        &copy; Copyright 2017 by <a href="https://www.mortimer.nl/">Mathijs Mortimer</a>
+    {% endblock %}
+</div>
+
+</body>
+</html>
