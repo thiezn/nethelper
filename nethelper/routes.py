@@ -4,6 +4,8 @@ routes.py
 
 Initialise the HTTP REST API routes/endpoints
 """
+import os
+
 from .apiviews import calculate_network, summarize_network, get_azure_networks
 from .apiviews import parse_mac_address
 from .apiviews import calculate_metrics
@@ -32,7 +34,8 @@ def setup_api_routes(app):
 def setup_web_routes(app):
     """Initialises the Web routes"""
     # TODO: Static content should ideally be served by nginx.
-    app.router.add_static('/static', 'nethelper/static', name='static')
+    static_path = '{}/static'.format(os.path.dirname(os.path.realpath(__file__)))
+    app.router.add_static('/static', static_path, name='static')
 
     app.router.add_get('/', query_page)
     app.router.add_get('/api', api_page)
