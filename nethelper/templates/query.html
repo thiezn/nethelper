@@ -7,172 +7,150 @@
 
 {% block content %}
 
-<div class="jumbotron">
-    <p>Your IP address is {{ client_ip }}</p>
-
-    <ul class="list-group">
-      <li class="list-group-item">
-        Client port <span class="badge">{{ client_ip }}</span>
-      </li>
-      {% for key, value in client_headers.items() %}
-        <li class="list-group-item">
-            {{ key }} <span class="badge">{{ value }}</span>
-        </li>
-      {% endfor %}
-    </ul>
-
-</div> <!-- /jumbostron -->
-
-<p>
-Check <a href="http://ourcodeworld.com/articles/read/143/how-to-copy-text-to-clipboard-with-javascript-easily">this</a> for having a button to copy a string. We want to make it as easy as possible to get the results
-</p>
+<div class=row">
+    <center><h2>Your IP address is {{ client_ip }}</h2></center>
+    <!-- Hiding your session details for the moment
+    {% for key, value in client_headers.items() %}
+        <div class="col-sm-3">
+            <label for="{{ key }}">{{ key }}</label>
+        </div>
+        <div class="input-group col-sm-9">
+            <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
+            <span class="input-group-btn">
+                <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
+                    <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                </button>
+            </span>
+        </div>
+    {% endfor %}
+    -->
+</div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>Network</h2>
         <form class="form-inline" action="/" method="get" accept-charset="utf-8">
             <div class="form-group">
                 <label for="network" class="sr-only">network</label>
-                <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
-                <input class="btn btn-primary" type="submit" value="network" />
+                <span class="input-group-btn">
+                    <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="network">
+                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                    </button>
+                </span>
             </div>
         </form>
     </div> <!-- network query -->
-    <div class="col-md-4">
-        <h2>MAC Address</h2>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="mac" class="sr-only">mac</label>
-                <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
-                <input class="btn btn-primary" type="submit" value="mac" />
-            </div>
-        </form>
-    </div> <!-- mac address query -->
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>Port</h2>
         <form class="form-inline" action="/" method="get" accept-charset="utf-8">
             <div class="form-group">
                 <label for="port" class="sr-only">port</label>
-                <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
-                <input class="btn btn-primary" type="submit" value="port" />
+                <span class="input-group-btn">
+                    <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="port">
+                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                    </button>
+                </span>
             </div>
         </form>
     </div> <!-- port query -->
+    <div class="col-md-3">
+        <h2>MAC Address</h2>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="mac" class="sr-only">mac</label>
+                <span class="input-group-btn">
+                    <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="mac">
+                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div> <!-- network metric conversions -->
+    <div class="col-md-3">
+        <h2>Metrics</h2>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="metric" class="sr-only">mac</label>
+                <span class="input-group-btn">
+                    <input class="form-control" id="metric" name="metric" placeholder="eg. 1024" {% if metric %}value="{{ metric.kbps}}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="metric">
+                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div> <!-- metric query -->
 </div> <!-- /row -->
 
 
-{% if network or port or mac %}
-    {% if network %}
-        <table>
-            <caption>Network Details</caption>
-            <thead>
-                <tr>
-                    <th scope='col'>network</th>
-                    <th scope='col'>netmask</th>
-                    <th scope='col'>bitmask</th>
-                    <th scope='col'>hostmask</th>
-                    <th scope='col'>first host</th>
-                    <th scope='col'>last host</th>
-                    <th scope='col'>num host addresses</th>
-                    <th scope='col'>broadcast</th>
-                    <th scope='col'>is private</th>
-                    <th scope='col'>is multicast</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="network">{{ network.network }}</td>
-                    <td data-label="netmask">{{ network.netmask }}</td>
-                    <td data-label="bitmask">{{ network.bitmask }}</td>
-                    <td data-label="hostmask">{{ network.hostmask }}</td>
-                    <td data-label="first_host">{{ network.first_host }}</td>
-                    <td data-label="last_host">{{ network.last_host }}</td>
-                    <td data-label="num_addresses">{{ network.num_addresses }}</td>
-                    <td data-label="broadcast">{{ network.broadcast }}</td>
-                    <td data-label="is_private">{{ network.is_private }}</td>
-                    <td data-label="is_multicast">{{ network.is_multicast }}</td>
-                </tr>
-            </tbody>
-        </table>
-    {% endif %}
+{% if network or port or mac or metric %}
+    <div class="row">
+        <center><h2>Results</h2></center>
+        {% if network %}
+            {% for key, value in network.to_json().items() %}
+                <div class="col-sm-3">
+                    <label for="{{ key }}">{{ key }}</label>
+                </div>
+                <div class="input-group col-sm-9">
+                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
+                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            {% endfor %}
+        {% endif %}
 
-    {% if port %}
-       <table>
-            <caption>Port Details</caption>
-            <thead>
-                <tr>
-                    <th scope='col'>number</th>
-                    <th scope='col'>name</th>
-                    <th scope='col'>description</th>
-                    <th scope='col'>assignee</th>
-                    <th scope='col'>contact</th>
-                    <th scope='col'>registration date</th>
-                    <th scope='col'>modification date</th>
-                    <th scope='col'>reference</th>
-                    <th scope='col'>service code</th>
-                    <th scope='col'>known unauthorized uses</th>
-                    <th scope='col'>assignment notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="port number">{{ port.port }}</td>
-                    <td data-label="name">{{ port.name }}</td>
-                    <td data-label="description">{{ port.description }}</td>
-                    <td data-label="assignee">{{ port.assignee }}</td>
-                    <td data-label="contact">{{ port.contact }}</td>
-                    <td data-label="registration_date">{{ port.registation_date }}</td>
-                    <td data-label="modification_date">{{ port.modification_date }}</td>
-                    <td data-label="reference">{{ port.reference }}</td>
-                    <td data-label="service_code">{{ port.service_code }}</td>
-                    <td data-label="known_unauthorized_uses">{{ port.known_unauthorized_uses }}</td>
-                    <td data-label="assignment_notes">{{ port.assignment_notes }}</td>
-                </tr>
-            </tbody>
-        </table>
-    {% endif %}
+        {% if port %}
+            {% for key, value in port.to_json().items() %}
+                <div class="col-sm-3">
+                    <label for="{{ key }}">{{ key }}</label>
+                </div>
+                <div class="input-group col-sm-9">
+                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
+                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            {% endfor %}
+        {% endif %}
 
-    {% if mac %}
-       <table>
-            <caption>Port Details</caption>
-            <thead>
-                <tr>
-                    <th scope='col'>mac address</th>
-                    <th scope='col'>mac address dots</th>
-                    <th scope='col'>mac address dashes</th>
-                    <th scope='col'>mac address flat</th>
-                    <th scope='col'>mac address binary</th>
-                    <th scope='col'>vendor ID</th>
-                    <th scope='col'>vendor(s)</th>
-                    <th scope='col'>is unicast</th>
-                    <th scope='col'>is multicast</th>
-                    <th scope='col'>is universal</th>
-                    <th scope='col'>is local</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="mac_address">{{ mac.mac_address }}</td>
-                    <td data-label="mac_address_dots">{{ mac.mac_address_dots }}</td>
-                    <td data-label="mac_address_dashes">{{ mac.mac_address_dashes }}</td>
-                    <td data-label="mac_address_flat">{{ mac.mac_address_flat }}</td>
-                    <td data-label="mac_address_binary">{{ mac.mac_address_binary }}</td>
-                    <td data-label="vendor_id">{{ mac.vendor_id }}</td>
-                    <td data-label="vendor(s)
-                    {% for vendor in mac.vendors %}
-                       ">{{ vendor }}
-                       ">{{ "," if not loop.last }}
-                    {% endfor %}   
-                    </td>
-                    <td data-label="is_unicast">{{ mac.is_unicast }}</td>
-                    <td data-label="is_multicast">{{ mac.is_multicast }}</td>
-                    <td data-label="is_universal">{{ mac.is_universal }}</td>
-                    <td data-label="is_local">{{ mac.is_local }}</td>
-                </tr>
-            </tbody>
-        </table>
-    {% endif %}
+        {% if mac %}
+            {% for key, value in mac.to_json().items() %}
+                <div class="col-sm-3">
+                    <label for="{{ key }}">{{ key }}</label>
+                </div>
+                <div class="input-group col-sm-9">
+                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
+                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>  <!-- /row -->
 </div>
 {% endif %}
 
 {% endblock content %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js"></script>
+<script>
+    var clipboard = new Clipboard('.copyButton');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+</script>
+{% endblock scripts %}

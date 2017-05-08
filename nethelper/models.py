@@ -98,8 +98,6 @@ class Port:
                 reader = csv.DictReader(f)
                 for row in reader:
                     # TODO: implement protocol=any
-                    print(row['Port Number'])
-                    print(self.port)
                     if int(row['Port Number']) == self.port:
                         if row['Transport Protocol'] == self.protocol:
                             self.name = row['Service Name']
@@ -139,6 +137,7 @@ class MacAddress:
 
     def __init__(self, mac_address, vendor_filename='config/oui.txt'):
         """ Tries to find the mac address vendor address """
+        # TODO Verify if binary representation is correct
         (
             self.mac_address_flat,
             self.mac_address,
@@ -148,10 +147,10 @@ class MacAddress:
         ) = self.parse_mac_notation(mac_address)
 
         # TODO: universal vs local mac:  https://en.wikipedia.org/wiki/MAC_address
-        self.is_unicast = None
-        self.is_multicast = None
         self.is_universal = None
         self.is_local = None
+        self.is_unicast = None
+        self.is_multicast = None
 
         # TODO: set vendor_id to None and skip vendorfile check if self.is_local = True
         self.vendor_id = self.mac_address[:8]
@@ -224,7 +223,7 @@ class MacAddress:
                 mac_flat[8:10],
                 mac_flat[10:12]
             )
-            mac_binary = '0'
+            mac_binary = bin(int(mac_flat, 16))[2:].zfill(64)
 
         except IndexError:
             raise ValueError('Invalid MAC address passed {}'.format(mac_address))
