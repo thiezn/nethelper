@@ -18,7 +18,7 @@
             <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
             <span class="input-group-btn">
                 <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                    <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                 </button>
             </span>
         </div>
@@ -35,7 +35,7 @@
                 <span class="input-group-btn">
                     <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
                     <button class="btn btn-primary" type="submit" value="network">
-                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </button>
                 </span>
             </div>
@@ -49,7 +49,7 @@
                 <span class="input-group-btn">
                     <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
                     <button class="btn btn-primary" type="submit" value="port">
-                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </button>
                 </span>
             </div>
@@ -63,7 +63,7 @@
                 <span class="input-group-btn">
                     <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
                     <button class="btn btn-primary" type="submit" value="mac">
-                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </button>
                 </span>
             </div>
@@ -73,11 +73,20 @@
         <h2>Metrics</h2>
         <form class="form-inline" action="/" method="get" accept-charset="utf-8">
             <div class="form-group">
-                <label for="metric" class="sr-only">mac</label>
+                <label for="metric" class="sr-only">metric</label>
                 <span class="input-group-btn">
-                    <input class="form-control" id="metric" name="metric" placeholder="eg. 1024" {% if metric %}value="{{ metric.kbps}}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="metric">
-                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                    <input class=form-control id="metric" name="metric" placeholder="eg. 1024"></input>
+
+                    <label for="metricunit" class="sr-only">metricunit</label>
+                    <select class="form-control" name="metricunit" id="metricunit">
+                        <option value="bps">bps</option>
+                        <option value="kbps">kbps</option>
+                        <option value="Mbps">Mbps</option>
+                        <option value="Gbps">Gbps</option>
+                    </select>
+
+                    <button class="btn btn-primary" type="submit" value="mac">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </button>
                 </span>
             </div>
@@ -98,7 +107,7 @@
                     <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
                     <span class="input-group-btn">
                         <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                         </button>
                     </span>
                 </div>
@@ -114,7 +123,7 @@
                     <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
                     <span class="input-group-btn">
                         <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                         </button>
                     </span>
                 </div>
@@ -130,12 +139,29 @@
                     <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
                     <span class="input-group-btn">
                         <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                         </button>
                     </span>
                 </div>
             {% endfor %}
         {% endif %}
+
+        {% if metric %}
+            {% for key, value in metric.to_json().items() %}
+                <div class="col-sm-3">
+                    <label for="{{ key }}">{{ key }}</label>
+                </div>
+                <div class="input-group col-sm-9">
+                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            {% endfor %}
+        {% endif %}
+
     </div>  <!-- /row -->
 </div>
 {% endif %}

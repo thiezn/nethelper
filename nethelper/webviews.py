@@ -7,7 +7,7 @@ Holds all the REST API views
 
 from aiohttp import web
 import aiohttp_jinja2
-from .models import IPv4Network, Port, MacAddress
+from .models import IPv4Network, Port, MacAddress, NetworkMetric
 
 
 @aiohttp_jinja2.template('query.html')
@@ -32,7 +32,6 @@ async def query_page(request):
     try:
         try:
             data['network'] = IPv4Network(request.query['network'])
-
         except ValueError:
             pass
     except KeyError:
@@ -47,6 +46,21 @@ async def query_page(request):
     # Parse mac query
     try:
         data['mac'] = MacAddress(request.query['mac'])
+    except KeyError:
+        pass
+
+    try:
+        try:
+            if request.query['metricunit'] == 'bps':
+                data['metric'] = NetworkMetric.from_bits(int(request.query['metric']), round_to=2)
+            elif request.query['metricunit'] == 'kbps':
+                data['metric'] = NetworkMetric.from_kilobits(int(request.query['metric']), round_to=2)
+            elif request.query['metricunit'] == 'Mbps':
+                data['metric'] = NetworkMetric.from_megabits(int(request.query['metric']), round_to=2)
+            elif request.query['metricunit'] == 'Gbps':
+                data['metric'] = NetworkMetric.from_gigabits(int(request.query['metric']), round_to=2)
+        except ValueError:
+            pass
     except KeyError:
         pass
 
