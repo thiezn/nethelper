@@ -1,97 +1,91 @@
-{% extends "base.html" %}
+{% macro output_field(key, value) -%}
+    <div class="col-sm-3">
+        <label for="{{ key }}">{{ key }}</label>
+    </div>
+    <div class="input-group col-sm-9">
+        <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
+        <span class="input-group-btn">
+            <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
+                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+{%- endmacro %}
 
-<div class="jumbotron">
-    <h1>IP Stuff</h1>
-    <p>Bla me please</p>
-</div>
+{% extends "base.html" %}
 
 {% block content %}
 
 <div class=row">
     <center><h2>Your IP address is {{ client_ip }}</h2></center>
-    <!-- Hiding your session details for the moment
-    {% for key, value in client_headers.items() %}
-        <div class="col-sm-3">
-            <label for="{{ key }}">{{ key }}</label>
-        </div>
-        <div class="input-group col-sm-9">
-            <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
-            <span class="input-group-btn">
-                <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                </button>
-            </span>
-        </div>
-    {% endfor %}
-    -->
 </div>
 
 <div class="row">
-    <div class="col-md-3">
-        <h2>Network</h2>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="network" class="sr-only">network</label>
-                <span class="input-group-btn">
-                    <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="network">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- network query -->
-    <div class="col-md-3">
-        <h2>Port</h2>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="port" class="sr-only">port</label>
-                <span class="input-group-btn">
-                    <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="port">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- port query -->
-    <div class="col-md-3">
-        <h2>MAC Address</h2>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="mac" class="sr-only">mac</label>
-                <span class="input-group-btn">
-                    <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="mac">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- network metric conversions -->
-    <div class="col-md-3">
-        <h2>Metrics</h2>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="metric" class="sr-only">metric</label>
-                <span class="input-group-btn">
-                    <input class=form-control id="metric" name="metric" placeholder="eg. 1024"></input>
+<div class="col-md-3">
+    <h2>Network</h2>
+    <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+        <div class="form-group">
+            <label for="network" class="sr-only">network</label>
+            <span class="input-group-btn">
+                <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
+                <button class="btn btn-primary" type="submit" value="network">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div> <!-- network query -->
+<div class="col-md-3">
+    <h2>Port</h2>
+    <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+        <div class="form-group">
+            <label for="port" class="sr-only">port</label>
+            <span class="input-group-btn">
+                <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
+                <button class="btn btn-primary" type="submit" value="port">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div> <!-- port query -->
+<div class="col-md-3">
+    <h2>MAC Address</h2>
+    <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+        <div class="form-group">
+            <label for="mac" class="sr-only">mac</label>
+            <span class="input-group-btn">
+                <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
+                <button class="btn btn-primary" type="submit" value="mac">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div> <!-- network metric conversions -->
+<div class="col-md-3">
+    <h2>Metrics</h2>
+    <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+        <div class="form-group">
+            <label for="metric" class="sr-only">metric</label>
+            <span class="input-group-btn">
+                <input class=form-control id="metric" name="metric" placeholder="eg. 1024"></input>
 
-                    <label for="metricunit" class="sr-only">metricunit</label>
-                    <select class="form-control" name="metricunit" id="metricunit">
-                        <option value="bps">bps</option>
-                        <option value="kbps">kbps</option>
-                        <option value="Mbps">Mbps</option>
-                        <option value="Gbps">Gbps</option>
-                    </select>
+                <label for="metricunit" class="sr-only">metricunit</label>
+                <select class="form-control" name="metricunit" id="metricunit">
+                    <option value="bps">bps</option>
+                    <option value="kbps">kbps</option>
+                    <option value="Mbps">Mbps</option>
+                    <option value="Gbps">Gbps</option>
+                </select>
 
-                    <button class="btn btn-primary" type="submit" value="mac">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- metric query -->
+                <button class="btn btn-primary" type="submit" value="mac">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div> <!-- metric query -->
 </div> <!-- /row -->
 
 
@@ -100,65 +94,25 @@
         <center><h2>Results</h2></center>
         {% if network %}
             {% for key, value in network.to_json().items() %}
-                <div class="col-sm-3">
-                    <label for="{{ key }}">{{ key }}</label>
-                </div>
-                <div class="input-group col-sm-9">
-                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
+                {{ output_field(key, value) }}
             {% endfor %}
         {% endif %}
 
         {% if port %}
             {% for key, value in port.to_json().items() %}
-                <div class="col-sm-3">
-                    <label for="{{ key }}">{{ key }}</label>
-                </div>
-                <div class="input-group col-sm-9">
-                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
+                {{ output_field(key, value) }}
             {% endfor %}
         {% endif %}
 
         {% if mac %}
             {% for key, value in mac.to_json().items() %}
-                <div class="col-sm-3">
-                    <label for="{{ key }}">{{ key }}</label>
-                </div>
-                <div class="input-group col-sm-9">
-                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
+                {{ output_field(key, value) }}
             {% endfor %}
         {% endif %}
 
         {% if metric %}
             {% for key, value in metric.to_json().items() %}
-                <div class="col-sm-3">
-                    <label for="{{ key }}">{{ key }}</label>
-                </div>
-                <div class="input-group col-sm-9">
-                    <input id="{{ key }}" type="text" class="form-control" value="{{ value }}" readonly>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default copyButton" type="button" data-clipboard-target="#{{ key }}" >
-                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
+                {{ output_field(key, value) }}
             {% endfor %}
         {% endif %}
 
