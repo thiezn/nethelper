@@ -77,16 +77,16 @@
                     <input class=form-control id="dns" name="dns" placeholder="eg. www.mortimer.nl" {% if dns %}value="{{ dns.name }}"{% endif %}></input>
                     <label for="metricunit" class="sr-only">metricunit</label>
                     <select class="form-control" name="dnstype" id="dnstype">
-                        <option value="A" {% if dns.type == 'A' %}selected="selected" {% endif %}>A</option>
-                        <option value="AAAA" {% if dns.type == 'AAAA' %}selected="selected" {% endif %}>AAAA</option>
-                        <option value="CNAME" {% if dns.type == 'CNAME' %}selected="selected" {% endif %}>CNAME</option>
-                        <option value="MX" {% if dns.type == 'MX' %}selected="selected" {% endif %}>MX</option>
-                        <option value="NAPTR" {% if dns.type == 'NAPTR' %}selected="selected" {% endif %}>NAPTR</option>
-                        <option value="NS" {% if dns.type == 'NS' %}selected="selected" {% endif %}>NS</option>
-                        <option value="PTR" {% if dns.type == 'PTR' %}selected="selected" {% endif %}>PTR</option>
-                        <option value="SOA" {% if dns.type == 'SOA' %}selected="selected" {% endif %}>SOA</option>
-                        <option value="SRV" {% if dns.type == 'SRV' %}selected="selected" {% endif %}>SRV</option>
-                        <option value="TXT" {% if dns.type == 'TXT' %}selected="selected" {% endif %}>TXT</option>
+                        <option value="A" {% if dns and dns.type == 'A' %}selected="selected" {% endif %}>A</option>
+                        <option value="AAAA" {% if dns and dns.type == 'AAAA' %}selected="selected" {% endif %}>AAAA</option>
+                        <option value="CNAME" {% if dns and dns.type == 'CNAME' %}selected="selected" {% endif %}>CNAME</option>
+                        <option value="MX" {% if dns and dns.type == 'MX' %}selected="selected" {% endif %}>MX</option>
+                        <option value="NAPTR" {% if dns and dns.type == 'NAPTR' %}selected="selected" {% endif %}>NAPTR</option>
+                        <option value="NS" {% if dns and dns.type == 'NS' %}selected="selected" {% endif %}>NS</option>
+                        <option value="PTR" {% if dns and dns.type == 'PTR' %}selected="selected" {% endif %}>PTR</option>
+                        <option value="SOA" {% if dns and dns.type == 'SOA' %}selected="selected" {% endif %}>SOA</option>
+                        <option value="SRV" {% if dns and dns.type == 'SRV' %}selected="selected" {% endif %}>SRV</option>
+                        <option value="TXT" {% if dns and dns.type == 'TXT' %}selected="selected" {% endif %}>TXT</option>
                     </select>
 
                     <button class="btn btn-primary" type="submit" value="dns">
