@@ -7,7 +7,7 @@ Holds all the REST API views
 
 from aiohttp import web
 import aiohttp_jinja2
-from .models import IPv4Network, Port, MacAddress, NetworkMetric
+from .models import IPv4Network, Port, MacAddress, NetworkMetric, DnsRecord
 
 
 @aiohttp_jinja2.template('query.html')
@@ -37,6 +37,14 @@ async def query_page(request):
             # TODO: make sure to log the exceptions as it might also be a
             # problem in the models.py implementation
             pass
+    except KeyError:
+        pass
+
+    # Parse DNS query
+    try:
+        data['dns'] = await DnsRecord.load_from_query(
+            request.query['dns'], request.query['dnstype']
+        )
     except KeyError:
         pass
 

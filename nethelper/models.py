@@ -5,8 +5,90 @@ models.py
 Contains the various object models
 """
 
+from collections import namedtuple
 import ipaddress
+import aiodns
+import asyncio
 import csv
+
+
+class DnsRecord:
+    """Class representing a DNS record"""
+
+    def __init__(self, name, type, results=None):
+        """Initialise :class:`DnsRecord` instance
+
+        :param name: Name of the DNS entry
+        :param type: Type of DNS entry
+        :param results: List of DNS query results
+        """
+        if results is None:
+            results = []
+
+        self.name = name
+        self.type = type
+        self.results = results
+
+    @classmethod
+    async def load_from_query(cls, name, type):
+        resolver = aiodns.DNSResolver(loop=asyncio.get_event_loop())
+
+        try:
+            response = await resolver.query(name, type)
+        except aiodns.error.DNSError:
+            response = []
+
+        results = []
+        for entry in response:
+            result = {'ttl': entry.ttl}
+
+            if type in ['A', 'AAAA', 'NS']:
+                result['host'] = entry.host
+            elif type == 'CNAME':
+                result['cname'] = entry.cname
+            elif type == 'MX':
+                result['host'] = entry.host
+                result['priority'] = entry.priority
+            elif type == 'NAPTR':
+                result['order'] = entry.order
+                result['preference'] = entry.preference
+                result['flags'] = entry.flags
+                result['service'] = entry.service
+                result['regex'] = entry.regex
+                result['replacement'] = entry.replacement
+            elif type == 'PTR':
+                result['name'] = entry.name
+            elif type == 'SOA':
+                result['nsmane'] = entry.nsmane
+                result['hostmaster'] = entry.hostmaster
+                result['serial'] = entry.serial
+                result['refresh'] = entry.refresh
+                result['retry'] = entry.retry
+                result['expires'] = entry.expires
+                result['minttl'] = entry.minttl
+            elif type == 'SRV':
+                result['host'] = entry.host
+                result['port'] = entry.port
+                result['priority'] = entry.priority
+                result['weight'] = entry.weight
+            elif type == 'TXT':
+                result['text'] = entry.text
+            else:
+                raise ValueError('Incorrect DnsRecord type given: {}'.format(type))
+
+            results.append(result)
+
+        return cls(name, type, results)
+
+    def __repr__(self):
+        return '<DnsRecord {} {} {}>'.format(self.type, self.name, self.results)
+
+    def to_json(self):
+        return {
+            'name': self.name,
+            'type': self.type,
+            'results': self.results
+        }
 
 
 class IPv4Network:

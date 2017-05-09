@@ -1,3 +1,17 @@
+/* generic button styling */
+.btn {
+    border-radius: 0px;
+}
+
+/* Form controls */
+
+.form-control {
+    border-radius: 0px;
+}
+.form-control[readonly] {
+    background-color: white;
+}
+
 /* Space out content a bit */
 body {
   padding-top: 20px;

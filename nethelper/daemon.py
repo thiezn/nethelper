@@ -24,6 +24,7 @@ from aiohttp import web
 import aiohttp_jinja2
 import jinja2
 from .routes import setup_api_routes, setup_web_routes
+from .exceptions import error_pages, handle_404, handle_500
 
 
 class NetHelperApi:
@@ -54,7 +55,13 @@ class NetHelperApi:
 
     def start(self):
         """Starts the REST API"""
-        self.app = web.Application()
+        error_middleware = error_pages(
+            {
+                404: handle_404,
+                500: handle_500
+            }
+        )
+        self.app = web.Application(middlewares=[error_middleware])
 
         # Enable jinja2 templates
         aiohttp_jinja2.setup(
