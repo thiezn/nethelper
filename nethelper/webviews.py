@@ -33,33 +33,59 @@ async def query_page(request):
         try:
             data['network'] = IPv4Network(request.query['network'])
         except ValueError:
+            # Didn't receive a proper network
+            # TODO: make sure to log the exceptions as it might also be a
+            # problem in the models.py implementation
             pass
     except KeyError:
         pass
 
     # Parse port query
     try:
-        data['port'] = Port(int(request.query['port']), 'tcp')
+        try:
+            data['port'] = Port(int(request.query['port']), 'tcp')
+        except ValueError:
+            # Didn't receive a valid ip OR its because the port list isn't
+            # sanitised yet (e.g. some fields have port ranges like 225-241
+            # TODO: make sure to log the exceptions as it might also be a
+            # problem in the models.py implementation
+            pass
     except KeyError:
         pass
 
     # Parse mac query
     try:
-        data['mac'] = MacAddress(request.query['mac'])
+        try:
+            data['mac'] = MacAddress(request.query['mac'])
+        except ValueError:
+            # Didn't receive a valid mac
+            # TODO: make sure to log the exceptions as it might also be a
+            # problem in the models.py implementation
+            pass
     except KeyError:
         pass
 
     try:
         try:
             if request.query['metricunit'] == 'bps':
-                data['metric'] = NetworkMetric.from_bits(int(request.query['metric']), round_to=2)
+                data['metric'] = NetworkMetric.from_bits(
+                    int(request.query['metric']), round_to=2
+                )
             elif request.query['metricunit'] == 'kbps':
-                data['metric'] = NetworkMetric.from_kilobits(int(request.query['metric']), round_to=2)
+                data['metric'] = NetworkMetric.from_kilobits(
+                    int(request.query['metric']), round_to=2
+                )
             elif request.query['metricunit'] == 'Mbps':
-                data['metric'] = NetworkMetric.from_megabits(int(request.query['metric']), round_to=2)
+                data['metric'] = NetworkMetric.from_megabits(
+                    int(request.query['metric']), round_to=2
+                )
             elif request.query['metricunit'] == 'Gbps':
-                data['metric'] = NetworkMetric.from_gigabits(int(request.query['metric']), round_to=2)
+                data['metric'] = NetworkMetric.from_gigabits(
+                    int(request.query['metric']), round_to=2
+                )
         except ValueError:
+            # TODO: make sure to log the exceptions as it might also be a
+            # problem in the models.py implementation
             pass
     except KeyError:
         pass
