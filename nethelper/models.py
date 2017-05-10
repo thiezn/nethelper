@@ -29,6 +29,55 @@ class DnsRecord:
         self.type = type
         self.results = results
 
+    @staticmethod
+    def _parse_response(response, type):
+        """Parses a single DNS response entry"""
+        result = {}
+        if type == 'SOA':
+            # SOA record never returns a list
+            result = {}
+            result['nsname'] = response.nsname
+            result['hostmaster'] = response.hostmaster
+            result['serial'] = response.serial
+            result['refresh'] = response.refresh
+            result['retry'] = response.retry
+            result['expires'] = response.expires
+            result['minttl'] = response.minttl
+        elif type in ['A', 'AAAA', 'NS']:
+            result['host'] = response.host
+            result['ttl'] = response.ttl
+        elif type == 'CNAME':
+            result['cname'] = response.cname
+            result['ttl'] = response.ttl
+        elif type == 'MX':
+            result['host'] = response.host
+            result['priority'] = response.priority
+            result['ttl'] = response.ttl
+        elif type == 'NAPTR':
+            result['order'] = response.order
+            result['preference'] = response.preference
+            result['flags'] = response.flags
+            result['service'] = response.service
+            result['regex'] = response.regex
+            result['replacement'] = response.replacement
+            result['ttl'] = response.ttl
+        elif type == 'PTR':
+            result['name'] = response.name
+            result['ttl'] = response.ttl
+        elif type == 'SRV':
+            result['host'] = response.host
+            result['port'] = response.port
+            result['priority'] = response.priority
+            result['weight'] = response.weight
+            result['ttl'] = response.ttl
+        elif type == 'TXT':
+            result['text'] = response.text
+            result['ttl'] = response.ttl
+        else:
+            raise ValueError('Incorrect DnsRecord type given: {}'.format(type))
+
+        return result
+
     @classmethod
     async def load_from_query(cls, name, type):
         resolver = aiodns.DNSResolver(loop=asyncio.get_event_loop())
@@ -39,44 +88,12 @@ class DnsRecord:
             response = []
 
         results = []
-        for entry in response:
-            result = {'ttl': entry.ttl}
 
-            if type in ['A', 'AAAA', 'NS']:
-                result['host'] = entry.host
-            elif type == 'CNAME':
-                result['cname'] = entry.cname
-            elif type == 'MX':
-                result['host'] = entry.host
-                result['priority'] = entry.priority
-            elif type == 'NAPTR':
-                result['order'] = entry.order
-                result['preference'] = entry.preference
-                result['flags'] = entry.flags
-                result['service'] = entry.service
-                result['regex'] = entry.regex
-                result['replacement'] = entry.replacement
-            elif type == 'PTR':
-                result['name'] = entry.name
-            elif type == 'SOA':
-                result['nsmane'] = entry.nsmane
-                result['hostmaster'] = entry.hostmaster
-                result['serial'] = entry.serial
-                result['refresh'] = entry.refresh
-                result['retry'] = entry.retry
-                result['expires'] = entry.expires
-                result['minttl'] = entry.minttl
-            elif type == 'SRV':
-                result['host'] = entry.host
-                result['port'] = entry.port
-                result['priority'] = entry.priority
-                result['weight'] = entry.weight
-            elif type == 'TXT':
-                result['text'] = entry.text
-            else:
-                raise ValueError('Incorrect DnsRecord type given: {}'.format(type))
-
-            results.append(result)
+        if isinstance(response, list):
+            for entry in response:
+                results.append(cls._parse_response(entry, type))
+        else:
+            results.append(cls._parse_response(response, type))
 
         return cls(name, type, results)
 
