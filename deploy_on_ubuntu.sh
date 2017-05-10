@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # Script variables
 GIT_REPO_URL='https://github.com/thiezn/nethelper.git'
@@ -29,6 +29,12 @@ echo -e '\n\n============== Installing Python3 dependencies ==============\n\n'
 pip3 install -r $APP_FOLDER/requirements.txt
 pip3 install -r $APP_FOLDER/optional-requirements.txt
 
+echo -e '\n\n============== Generate self-signed certificate ==============\n\n'
+mkdir /etc/ssl/nethelper/
+cd /etc/ssl/nethelper/
+openssl req -subj "/CN=mortimer.trafficmanager.net/O=NetHelper/C=NL" -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -keyout nethelper.key -out nethelper.crt
+chown -R root:root /etc/ssl/nethelper
+cd $APP_BASE_FOLDER
 
 echo -e '\n\n============== Create and use system user for application ==============\n\n'
 useradd -r -s /bin/false nethelper
