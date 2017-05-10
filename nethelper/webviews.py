@@ -21,6 +21,10 @@ async def query_page(request):
     except:
         client_ip, client_port = None, None
 
+    if client_ip == '127.0.0.1':
+        if 'X-Real-IP' in request.headers:
+            client_ip = request.headers['X-Real-IP']
+
     data = {
         'query_page_active': True,
         'client_ip': client_ip,
