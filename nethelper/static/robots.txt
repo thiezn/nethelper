@@ -1,0 +1,3 @@
+User-agent:*
+Disallow: /images/
+Sitemap: http://mortimer.trafficmanager.net/sitemap.xml

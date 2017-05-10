@@ -27,7 +27,7 @@ from .routes import setup_api_routes, setup_web_routes
 from .exceptions import error_pages, handle_404, handle_500
 
 
-class NetHelperApi:
+class NetHelper:
     """Class representing the nethelper REST API HTTP Daemon"""
 
     def __init__(self, host, port):
@@ -50,7 +50,7 @@ class NetHelperApi:
 
         return cls(
             config['host'],
-            config['port']
+            config['port'],
         )
 
     def start(self):

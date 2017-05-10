@@ -14,58 +14,17 @@
 
 {% extends "base.html" %}
 
+{% block metadescr %}<meta name="description" content="This nethelper page provides a web interface for dns domain name queries, ip network calculator, mac vendor lookups and port lookups">{% endblock metadescr %}
+
+{% block title %}
+ip network calculator, DNS domain name lookup and more
+{% endblock title %}
+
 {% block content %}
 
 <div class=row">
-    <center><h2>Your IP address is <strong>{{ client_ip }}</strong></h2></center>
+    <h1 class="text-center">Your IP address is <strong>{{ client_ip }}</strong></h1>
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h3>IPv4 Network</h3>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="network" class="sr-only">network</label>
-                <span class="input-group-btn">
-                    <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="network">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- network query -->
-
-    <div class="col-md-4">
-        <h3>Port</h3>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="port" class="sr-only">port</label>
-                <span class="input-group-btn">
-                    <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="port">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- port query -->
-
-    <div class="col-md-4">
-        <h3>MAC Address</h3>
-        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
-            <div class="form-group">
-                <label for="mac" class="sr-only">mac</label>
-                <span class="input-group-btn">
-                    <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
-                    <button class="btn btn-primary" type="submit" value="mac">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-    </div> <!-- network metric conversions -->
-</div> <!-- row -->
 
 <div class="row">
     <div class="col-md-6">
@@ -95,9 +54,55 @@
                 </span>
             </div>
         </form>
-    </div> <!-- metric query -->
+    </div> <!-- DNS query -->
 
     <div class="col-md-6">
+        <h3>IPv4 Network</h3>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="network" class="sr-only">network</label>
+                <span class="input-group-btn">
+                    <input class="form-control" id="network" name="network" placeholder="eg. 10.0.0.0/24" {% if network %}value="{{ network.network }}/{{ network.bitmask }}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="network">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div> <!-- network query -->
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Port</h3>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="port" class="sr-only">port</label>
+                <span class="input-group-btn">
+                    <input class="form-control" id="port" name="port" placeholder="eg. 22" {% if port %}value="{{ port.port }}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="port">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div> <!-- port query -->
+
+    <div class="col-md-4">
+        <h3>MAC Address</h3>
+        <form class="form-inline" action="/" method="get" accept-charset="utf-8">
+            <div class="form-group">
+                <label for="mac" class="sr-only">mac</label>
+                <span class="input-group-btn">
+                    <input class="form-control" id="mac" name="mac" placeholder="eg. 0011.2233.4455" {% if mac %}value="{{ mac.mac_address }}"{% endif %}></input>
+                    <button class="btn btn-primary" type="submit" value="mac">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div> <!-- network metric conversions -->
+
+    <div class="col-md-4">
         <h3>Metrics</h3>
         <form class="form-inline" action="/" method="get" accept-charset="utf-8">
             <div class="form-group">
@@ -124,7 +129,7 @@
 
 {% if network or port or mac or dns or metric %}
     <div class="row">
-        <center><h2>Results</h2></center>
+        <h2 class="text-center">Results</h2>
         {% if network %}
             {% for key, value in network.to_json().items() %}
                 {{ output_field(key, value) }}
@@ -144,17 +149,13 @@
         {% endif %}
 
         {% if dns %}
-            {% if dns.results %}
-                {{ output_field('query', dns.name) }}
-                {{ output_field('type', dns.type) }}
-                {% for result in dns.results %}
-                    {% for key, value in result.items() %}
-                        {{ output_field(key, value) }}
-                    {% endfor %}
-                    {% endfor %}
-            {% else %}
-                <h2>No result returned from dns server for {{ dns.name }} {{ dns.type }}</h2>
-            {% endif %}
+            <h3 class="text-center">DNS query {{ dns.type }} {{ dns.name }} produced {{ dns.results|length  }} result(s)</h3>
+            {% for result in dns.results %}
+                <br>
+                {% for key, value in result.items() %}
+                    {{ output_field(key, value) }}
+                {% endfor %}
+            {% endfor %}
         {% endif %}
 
         {% if metric %}

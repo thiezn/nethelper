@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Website and REST API for parsing ip, networks, mac addresses and ports">
-    <meta name="author" content="Mathijs Mortimer">
-    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="static/favicon.ico" type="image/x-icon">
+    {% block metadescr %}{% endblock metadescr %}
+    <meta name="description" content="netheper provides a web interface and REST API for dns domain name queries, ip network calculator, mac vendor lookups and port lookups">
+    <meta name="author" content="Mathijs Mortimer" href="humans.txt">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
 
     <title>{% block title %}{% endblock title %}</title>
 

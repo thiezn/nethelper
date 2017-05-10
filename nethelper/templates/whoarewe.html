@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
+{% block metadescr %}<meta name="description" content="This nethelper page provides details on the author of this website">{% endblock metadescr %}
+{% block title %}Who are we{% endblock title %}
+
 {% block content %}
+<h1>Who are we?</h1>
 <p>
 This site allows network administrators and other cool guys to retrieve ip address, mac address and port details.
 
@@ -11,11 +15,23 @@ There are a lot of websites and tools out there for this with various level of m
 The main goal is to create the end all API for network administrators and <i><b>rule the world...<b></i>
 </p>
 
+<h2>About the author</h2>
 <address>
   <strong>Rowly Inc.</strong><br>
-  <abbr title="Phone">P:</abbr> +31 (0) 30 71 22222<br>
-  <abbr title="Email">M:</abbr><a href="mailto:admin@mortimer.nl">admin@mortimer.nl</a><br>
+  Mathijs Mortimer
+  <a href="mailto:admin@mortimer.nl">admin@mortimer.nl</a><br>
 </address>
-  
-</address>
+
+
+<a href="https://twitter.com/SoulmanThiezn" class="twitter-follow-button" data-dnt="true" data-show-count="false">Follow @SoulmanThiezn</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 {% endblock content %}
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name": "Mathijs Mortimer",
+    "url": "http://mortimer.trafficmanager.net",
+}
+</script>

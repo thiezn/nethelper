@@ -1,0 +1,13 @@
+/* TEAM */
+Developer: Mathijs Mortimer.
+Site: www.mortimer.nl
+Twitter: SoulmanThiezn
+
+/* THANKS */
+Name: My mum
+Website: http://www.driftbui.com/
+
+/* SITE */
+Language: English, Dutch
+Standards: HTML5, CSS3
+Components: Python, aiohttp, Bootstrap 3
