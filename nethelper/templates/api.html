@@ -6,5 +6,102 @@
 
 {% block content %}
 <h1>NetHelper API Documentation</h1>
-<p>Here we'll describe the nethelper API on http://localhost/api/v1/</p>
+<p>
+Someday this is the page that contains extensive documentation about the nethelper API on http://mortimer.trafficmanager.net/api/v1/
+<p></p>
+For now you'll have to make do with a dump of a few example queries you can do.
+</p>
+
+<h2>Metric Calculations</h2>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>1024 kbps</strong></li>
+    <li>POST</li>
+    <li>Payload {"kbps": 1024}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/metrics/calculate</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>1024 kbps non-rounded</strong></li>
+    <li>POST</i>
+    <li>Payload {"kbps": 1024, "round_to": null}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/metrics/calculate</li>
+</ul>
+
+<h2>Network calculations</h2>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>10.0.0.0 bitmask 24</strong></li>
+    <li>POST</li>
+    <li>Payload: {"network": "10.0.0.0", "bitmask": 24}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/networks/calculate</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>10.0.0.0 netmask 255.255.255.0</strong></li>
+    <li>POST</li>
+    <li>Payload: {"network": "10.0.0.0", "netmask": "255.255.255.0"}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/networks/calculate</li>
+</ul>
+<hr>
+
+<ul class="list-unstyled">
+    <li><strong>10.0.0.0/24</strong></li>
+    <li>POST</li>
+    <li>Payload: {"network": "10.0.0.0/24"}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/networks/calculate</li>
+</ul>
+
+<h2>MAC Address parsing</h2>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>00.11.22.33.44.55</strong></li>
+    <li>POST</li>
+    <li>Payload: {"mac_address": "00.11.22.33.44.55"}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/mac</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>0011.2233.4455</strong></li>
+    <li>POST</li>
+    <li>Payload: {"mac_address": "0011.2233.4455"}</li>
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/mac</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>00-11-22-33-44-55</strong></li>
+    <li>POST</li>
+    <li>Payload: {"mac_address": "00-11-22-33-44-55"}
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/mac</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>00:11:22:33:44:55</strong></li>
+    <li>POST</li>
+    <li>Payload: {"mac_address": "00:11:22:33:44:55"}
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/mac</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>001122334455</strong></li>
+    <li>POST</li>
+    <li>Payload: {"mac_address": "001122334455"}
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/mac</li>
+</ul>
+
+<h2>Ports</h2>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>tcp/22</strong></li>
+    <li>POST</li>
+    <li>Payload: {"port": 22, "protocol": "tcp"}
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/ports</li>
+</ul>
+<hr>
+<ul class="list-unstyled">
+    <li><strong>udp\21</strong></li>
+    <li>POST</li>
+    <li>Payload: {"port": 21, "protocol": "udp"}
+    <li>URL: http://mortimer.trafficmanager.net/api/v1/ports</li>
+</ul>
 {% endblock content %}

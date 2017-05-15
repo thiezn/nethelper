@@ -12,7 +12,7 @@ We offer a simple website for retrieving the data as well as an API. The API wil
 for bulk queries.
 
 There are a lot of websites and tools out there for this with various level of maturity.
-The main goal is to create the end all API for network administrators and <i><b>rule the world...<b></i>
+The main goal is to create the end all API for network administrators and <i><b>rule the world...</b></i>
 </p>
 
 <h2>About the author</h2>
@@ -25,6 +25,7 @@ The main goal is to create the end all API for network administrators and <i><b>
 
 {% endblock content %}
 
+{% block script %}
 <script type="application/ld+json">
 {
     "@context": "http://schema.org",
@@ -33,3 +34,4 @@ The main goal is to create the end all API for network administrators and <i><b>
     "url": "http://mortimer.trafficmanager.net",
 }
 </script>
+{% endblock script %}

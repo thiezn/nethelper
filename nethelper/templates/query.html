@@ -125,6 +125,7 @@ ip network calculator, DNS domain name lookup and more
             </form>
         </div> <!-- metric query -->
     </div>
+
 <!-- Results -->
 {% if network or port or mac or dns or metric %}
     <div class="col-md-8">
@@ -165,6 +166,33 @@ ip network calculator, DNS domain name lookup and more
             {% endif %}
         </div>  <!-- /row -->
     </div>  <!-- /col-md-6 -->
+{% else %}
+    <div class="col-md-8">
+        <h2>NetHelper Service</h2>
+        <p>
+        The NetHelper service provides a quick and easy to use toolset for network administrators. The tools provided
+        can be found on a lot of other websites but we aim to make the interaction as smooth as possible.
+        </p><p>
+        In addition to the web frontend we offer an <a href="/api">API</a> to use the same toolset. The <a href="/api">API</a> 
+        offers several additional features like bulk network calculations and a network summarization tool. 
+        </p><p>
+        If you have any comments or suggestions for improving the site please let me know at @SoulmanThiezn.
+        Currently we provide the following tools:
+        </p>
+        <h3>DNS domain name lookup</h3>
+        <p>
+        This service is able to resolve the main DNS query types. Optionally you can adjust the server field to point
+        to a different domain name server.
+        <h3>IPv4 network calculator</h3>
+        This service allows you to submit a ipv4 network address and will calculate it's properties. The ipv4 network
+        address can be submitted in various formats like 10.0.0.0/24, 10.0.0.0 255.255.255.0, 10.0.0.0 0.0.0.255.
+        <h3>MAC address lookup</h3>
+        This service retrieves the properties of a given MAC address.
+        <h3>TCP/UDP port lookup</h3>
+        This service looks up TCP/UDR port details.
+        <h3>Network bandwith metrics converter</h3>
+        This service converts a given network bandwidth metric to different formats.
+    </div>
 {% endif %}
 </div>
 {% endblock content %}

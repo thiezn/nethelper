@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     {% block metadescr %}{% endblock metadescr %}
-    <meta name="description" content="netheper provides a web interface and REST API for dns domain name queries, ip network calculator, mac vendor lookups and port lookups">
     <meta name="author" content="Mathijs Mortimer" href="humans.txt">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -36,20 +35,22 @@
           <ul class="nav nav-pills pull-right">
             <li role="presentation" {% if query_page_active %}class="active"{% endif %}><a href="/">Query</a></li>
             <li role="presentation" {% if api_page_active %}class="active"{% endif %}><a href="/api">API</a></li>
+            <li role="presentation" {% if blog_page_active %}class="active"{% endif %}><a href="/blog">Blog</a></li>
             <li role="presentation" {% if whoarewe_page_active %}class="active"{% endif %}><a href="/whoarewe">Who are we</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">NetHelper</h3>
       </div>
-
       {% block content %}{% endblock content %}
+    </div> <!-- container -->
 
-      <div class="footer">
+
+    <div class="footer">
+        <div class="container">
           {% block footer %}{% endblock footer %}
           {% include "footer.html" %}
-      </div>
-
-    </div> <!-- /container -->
+        </div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -110,6 +110,11 @@ async def api_page(request):
     return {'api_page_active': True}
 
 
+@aiohttp_jinja2.template('blog.html')
+async def blog_page(request):
+    return {'blog_page_active': True}
+
+
 @aiohttp_jinja2.template('whoarewe.html')
 async def whoarewe_page(request):
     return {'whoarewe_page_active': True}
